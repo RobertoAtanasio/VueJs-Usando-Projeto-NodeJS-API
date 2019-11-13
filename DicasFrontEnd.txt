@@ -1,0 +1,25 @@
+npm install -g @vue/cli
+
+vue create frontend
+
+npm install
+
+npm run serve
+
+http://localhost:8080/
+
+npm install vuex --save
+npm install bootstrap-vue --save
+npm i font-awesome --save
+npm i axios --save
+npm i highlightjs --save
+npm i liquor-tree --save
+npm i vue-gravatar --save
+npm i vue-mq --save
+npm i vue-router --save
+npm i vue-toasted --save
+npm i vue2-editor --save
+
+
+
+
