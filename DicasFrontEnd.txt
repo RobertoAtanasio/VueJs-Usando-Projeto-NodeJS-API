@@ -19,7 +19,7 @@ npm i vue-mq --save
 npm i vue-router --save
 npm i vue-toasted --save
 npm i vue2-editor --save
-
+npm i bootstrap --save
 
 
 
