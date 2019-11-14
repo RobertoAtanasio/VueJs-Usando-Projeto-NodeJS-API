@@ -4,14 +4,15 @@
             <i class="fa fa-lg" :class="icon"></i>
         </a>
         <h1 class="title">
-            {{ title }}
+            <router-link to="/">{{ title }}</router-link>
         </h1>
         <UserDropDown v-if="!hideUserDropDown"/>
     </header>
 </template>
 
 <script>
-// import { mapState } from 'vuex'     // responsável por mapear um atributo dentro do componete store
+// import { mapState } from 'vuex'   -> para mapear um atributo dentro do componente store
+// computed: mapState(['isMenuVisible']) para os caso onde só se tem esse atributo no computed
 
 import UserDropDown from './UserDropDown'
 
@@ -61,6 +62,12 @@ export default {
     .title a {
         color: #fff;
         text-decoration: none;
+    }
+    
+    .title a:hover {
+        color: #fff;
+        text-decoration: none;
+        /* font-size: 1.3rem; */
     }
 
     header.header > a.toggle {

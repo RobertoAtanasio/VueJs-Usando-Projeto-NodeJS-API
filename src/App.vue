@@ -16,6 +16,8 @@ import Footer from "@/components/template/Footer";
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
 
+// mapState mapeia os atributos em store.js onde está definido a Vuex.Store
+
 export default {
   name: "App",
   components: { Content, Footer, Header, Menu },
@@ -44,7 +46,7 @@ export default {
 			"nav  content"
 			"nav  footer";
 		grid-template-rows: 60px 1fr 40px;
-		grid-template-columns: 300px 1fr;
+		grid-template-columns: 200px 1fr;
 	}
 
 	/** Na minha versão, se não incluir o css nav abaixo, o menu não preenche toda a vertical ??? */

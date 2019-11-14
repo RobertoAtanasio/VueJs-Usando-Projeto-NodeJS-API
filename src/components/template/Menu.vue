@@ -5,7 +5,7 @@
 <script>
 import { mapState } from 'vuex'     // responsável por mapear um atributo dentro do componete store
 
-// com mapState['isMenuVisible'] está se querendo mapear o atributo citado isMenuVisible que passará a
+// mapState['isMenuVisible'] mapear o atributo citado isMenuVisible que passará a
 // ser 'um atributo' do componente Menu.vue
 
 export default {
