@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         isMenuVisible: true,
+        isMudouCategoria: false,
         user: {
             name: 'Usuário Mock',
             email: 'mock@mail.com.br'
@@ -18,9 +19,16 @@ export default new Vuex.Store({
             } else {
                 state.isMenuVisible = isVisible
             }
-
             // /* eslint-disable */
             // console.log('toggleMenu', state.isMenuVisible)
+        },
+        setMudouCategoria(state) {
+            state.isMudouCategoria = true
+        }
+    },
+    actions: {
+        setAcaoMudouCategoria({ commit }) {
+            commit('setMudouCategoria')
         }
     }
 })

@@ -21,6 +21,7 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            
             <!-- mt-3 margem top 3; mb-3 margem bottom 3 -->
             <b-form-checkbox id="user-admin" v-show="mode === 'save'"
                 v-model="user.admin" class="mt-3 mb-3">
@@ -40,8 +41,6 @@
                         label-for="user-confirm-password">
                         <b-form-input id="user-confirm-password" type="password"
                             v-model="user.confirmpassword" required
-                            :value="true"
-                            :unchecked-value="false"
                             placeholder="Confirme a Senha do Usuário..." />
                     </b-form-group>
                 </b-col>
@@ -60,16 +59,27 @@
         <hr>
 
         <!-- Ver https://bootstrap-vue.js.org/docs/components/table/#fields-column-definitions -->
-        <b-table striped hover :items="users" :fields="fields">
+        <b-table striped hover :items="users" :fields="fields"
+            :busy.sync="isBusy">
             <!-- <template v-slot:cell(actions)="data"> -->
             <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
+                    <!-- <a href="#" class="fa fa-pencil move-top1"></a>  -->
                 </b-button>
                 <b-button variant="danger" @click="loadUser(data.item, 'remove')">
                     <i class="fa fa-trash"></i>
+                    <!-- <a href="#" class="fa fa-trash move-top2"></a>  -->
                 </b-button>
             </template>
+
+            <template v-slot:table-busy>
+                <div class="text-center text-danger my-2">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>Loading...</strong>
+                </div>
+            </template>
+
         </b-table>
     </div>
 </template>
@@ -82,6 +92,7 @@ export default {
     name: 'UserAdmin',
     data() {
         return {
+            isBusy: false,
             mode: 'save',
             user: {},
             users: [],
@@ -111,6 +122,7 @@ export default {
                 .then(res => {
                     this.users = res.data
                 })
+                .catch(showError)
         },
         reset() {
             this.mode = 'save'
@@ -130,7 +142,7 @@ export default {
         },
         remove() {
             const id = this.user.id
-            axios.delete(`${baseApiUrl}/${id}`)
+            axios.delete(`${baseApiUrl}/users/${id}`)
                 .then( () => {
                     this.$toasted.global.defaultSuccess();
                     this.reset()
@@ -157,5 +169,16 @@ export default {
 </script>
 
 <style>
-
+    .move-top1 {
+        color: #000;
+    }
+    .move-top1:hover {
+        color: #000;
+    }
+    .move-top2 {
+        color: #fff;
+    }
+    .move-top2:hover {
+        color: #fff;
+    }
 </style>
