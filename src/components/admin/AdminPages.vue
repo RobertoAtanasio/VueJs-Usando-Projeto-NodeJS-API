@@ -3,7 +3,7 @@
         <PageTitle icon="fa fa-cogs" main="Administração do Sistema" sub="Cadastros & Cia" />
         <!-- os tags b- se refrem ao bootstarp-vue - tabs -->
         <b-card no-body>
-            <b-tabs card>
+            <b-tabs card v-if="user">
                 <b-tab title="Artigos" active>
                     <ArticleAdmin />
                 </b-tab>
@@ -24,11 +24,14 @@ import PageTitle from '../template/PageTitle'
 import ArticleAdmin from './ArticlesAdmin'
 import CategoryAdmin from './CategoryAdmin'
 import UserAdmin from './UserAdmin'
+import { mapState } from "vuex";
+
 import Teste from './Teste'
 
 export default {
     name: 'AdminPages',
-    components: { PageTitle, ArticleAdmin, CategoryAdmin, UserAdmin, Teste }
+    components: { PageTitle, ArticleAdmin, CategoryAdmin, UserAdmin, Teste },
+    computed: mapState(['user'])
 }
 </script>
 

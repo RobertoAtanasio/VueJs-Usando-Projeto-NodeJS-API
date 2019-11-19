@@ -80,11 +80,19 @@ import axios from 'axios'
 //         {text: 'Item 3.2'}
 //     ]}
 // ],
+//
+// {
+//   "id": Number,
+//   "text": String,
+//   "data": Object,
+//   "children": Array,
+//   "state": Object
+// }
 
 export default {
     name: 'Menu',
     components: { Tree },
-    computed: mapState(['isMenuVisible']),
+    computed: mapState(['isMenuVisible', 'user']),
     data: function() {
         return {
             treeFilter: '',
@@ -113,8 +121,14 @@ export default {
         }
     },
     mounted() {
+        // alert('Montou o node de acesso')
         this.$refs.tree.$on('node:selected', this.onNodeSelect)
-    }
+    },
+    // watch: {
+    //     $route() {
+    //         alert('alterou')
+    //     }
+    // },
 }
 </script>
 
@@ -148,14 +162,14 @@ export default {
         justify-content: center;
         align-items: center;
 
-        margin: 20px;
-        padding-bottom: 8px;
+        margin: 15px;
+        padding-bottom: 4px;
         border-bottom: 1px solid #AAA;
     }
 
     .menu .menu-filter i {
         color: #AAA;
-        margin-right: 10px;
+        margin-right: 7px;
     }
 
     .menu input {

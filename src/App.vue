@@ -1,27 +1,78 @@
 <template>
-  <div id="app" :class="{ 'hide-menu': !isMenuVisible }">
+  <div id="app" :class="{ 'hide-menu': !isMenuVisible || !user }">
     <Header title="Cod3r - Base de Conhecimento" 
-		:hideToggle="false"
-		:hideUserDropDown="false"/>
-	<Menu>Navigação</Menu>
-	<Content>Content</Content>
+		:hideToggle="!user"
+		:hideUserDropDown="!user"/>
+	<Menu v-if="user" />
+	<Loading v-if="validatingToken" />
+	<Content v-else />
     <Footer />
   </div>
 </template>
 
 <script>
+import axios from "axios"
+import { baseApiUrl, userKey, showError } from "@/global"
 import { mapState } from "vuex";
 import Content from "@/components/template/Content";
 import Footer from "@/components/template/Footer";
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
+import Loading from '@/components/template/Loading'
 
 // mapState mapeia os atributos em store.js onde está definido a Vuex.Store
 
 export default {
-  name: "App",
-  components: { Content, Footer, Header, Menu },
-  computed: mapState(["isMenuVisible"])
+	name: "App",
+	components: { Content, Footer, Header, Menu, Loading },
+	computed: mapState(["isMenuVisible", 'user']),
+	data: function() {
+		return {
+			validatingToken: true
+		}
+	},
+	methods: {
+		async validateToken() {
+			this.validatingToken = true
+			const json = localStorage.getItem(userKey)
+			const userData = JSON.parse(json)
+			this.$store.commit('setUser', null)
+
+			if (!userData) {
+				this.validateToken = false
+				this.$router.push({ name: 'Auth'})
+				return
+			}
+
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+				.catch( showError )
+				
+			if (res.data) {
+				this.$store.commit('setUser', userData)
+				
+				if(this.$mq === 'xs' || this.$mq === 'sm') {
+					this.$store.commit('toggleMenu', false)
+				}
+			} else {
+				localStorage.removeItem(userKey)
+				this.$router.push({ name: 'auth' })
+			}
+
+			this.validateAdmin()
+
+			this.validatingToken = false
+		},
+		async validateAdmin() {
+			const json = localStorage.getItem(userKey)
+			const userData = JSON.parse(json)
+			const res = await axios.post(`${baseApiUrl}/validateAdmin`, userData)
+				.catch( showError )
+			this.$store.commit('isAdmin', res.data)
+		}
+	},
+	created() {
+		this.validateToken()
+	}
 };
 </script>
 

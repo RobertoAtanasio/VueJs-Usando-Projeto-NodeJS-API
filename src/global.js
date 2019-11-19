@@ -1,8 +1,9 @@
 // conterá configurações globals para o sistema
 
-import Vue from 'vue'
+import Vue from 'vue'  
 
 export const baseApiUrl = 'http://localhost:3000'
+export const userKey = '__knowledge_user'           // user key para o local store do browser
 
 export function showError(e) {
     if(e && e.response && e.response.data) {
@@ -14,4 +15,4 @@ export function showError(e) {
     }
 }
 
-export default { baseApiUrl, showError }
+export default { baseApiUrl, showError, userKey }

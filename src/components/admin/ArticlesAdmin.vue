@@ -118,6 +118,7 @@ export default {
                 this.count = res.data.count
                 this.limit = res.data.limit
             })
+            .catch(showError)
         },
         reset() {
             this.mode = 'save'
@@ -147,6 +148,7 @@ export default {
             this.mode = mode
             axios.get(`${baseApiUrl}/articles/${article.id}`)
                 .then(res => this.article = res.data)
+                .catch(showError)
         },
         loadCategories() {
             // prepara o retorno para o dropdown
@@ -155,6 +157,7 @@ export default {
                 this.categories = res.data.map(category => {
                     return { value: category.id, text: category.path }
                 })
+                // .catch(showError)
             })
         },
         loadUsers() {
@@ -164,6 +167,7 @@ export default {
                 this.users = res.data.map(user => {
                     return { value: user.id, text: `${user.name} - ${user.email}` }
                 })
+                // .catch(showError)
             })
         }
     },

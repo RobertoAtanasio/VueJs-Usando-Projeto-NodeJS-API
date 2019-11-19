@@ -17,12 +17,14 @@ import PageTitle from '../template/PageTitle'
 import Stat from './Stat'
 import axios from 'axios'               // para as requisições ao backend
 import { baseApiUrl } from '@/global'   // fazer o link com os parâmetros em global.js
+import { mapState } from "vuex";
 
 // data() { poderia ser substituído por data: function {
 
 export default {
     name: 'Home',
     components: { PageTitle, Stat },
+    computed: mapState(['user']),
     data() {
         return {
             stat: {}
@@ -30,11 +32,9 @@ export default {
     },
     methods: {
         getStats() {
-            /* eslint-disable */
             axios.get(`${baseApiUrl}/stats`)
                 .then( res => this.stat = res.data)
-                .catch( erro => console.log('Erro na conexão com BD', erro))
-            console.log(this.stat)
+
             // exemplo de retorno da API:
             // {
             //     "_id": "5dcb173898ab0d38b4276fb9",
@@ -44,6 +44,11 @@ export default {
             //     "createdAt": "2019-11-12T20:34:00.155Z",
             //     "__v": 0
             // }
+        }
+    },
+    watch: {
+        user() {
+            this.getStats()
         }
     },
     mounted() {

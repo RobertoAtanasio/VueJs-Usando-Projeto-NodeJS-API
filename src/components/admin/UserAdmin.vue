@@ -65,20 +65,28 @@
             <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
-                    <!-- <a href="#" class="fa fa-pencil move-top1"></a>  -->
+                    <!-- <a href="#" class="fa fa-pencil"></a> -->
                 </b-button>
-                <b-button variant="danger" @click="loadUser(data.item, 'remove')">
+                <b-button variant="danger" @click="loadUser(data.item, 'remove')" >
                     <i class="fa fa-trash"></i>
-                    <!-- <a href="#" class="fa fa-trash move-top2"></a>  -->
+                    <!-- <a href="#" class="fa fa-trash"></a>  -->
                 </b-button>
+
+                <!-- <router-link tag="button" primario 
+                    :to="{ name: 'editarUsuario', params: { id },
+                        query: { completo: true, lingua: 'pt'},
+                        hash: '#rodape' }">
+                    Editar Query
+                </router-link> -->
+
             </template>
 
-            <template v-slot:table-busy>
+            <!-- <template v-slot:table-busy>
                 <div class="text-center text-danger my-2">
                     <b-spinner class="align-middle"></b-spinner>
                     <strong>Loading...</strong>
                 </div>
-            </template>
+            </template> -->
 
         </b-table>
     </div>
@@ -169,16 +177,7 @@ export default {
 </script>
 
 <style>
-    .move-top1 {
-        color: #000;
-    }
-    .move-top1:hover {
-        color: #000;
-    }
-    .move-top2 {
-        color: #fff;
-    }
-    .move-top2:hover {
-        color: #fff;
+    .isadmin {
+        color: blue;
     }
 </style>
