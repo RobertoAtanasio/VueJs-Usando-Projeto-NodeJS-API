@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey } from '@/global'
+import { baseApiUrl, showError, userKey, tokenExpirado } from '@/global'
 import axios from 'axios'
 
 export default {
@@ -54,10 +54,13 @@ export default {
             // }
             axios.post(`${baseApiUrl}/signin`, this.user)
                 .then(res => {
+                    // eslint-disable-next-line
+                    console.log('signin')
                     this.$store.commit('setUser', res.data)
                     localStorage.setItem(userKey, JSON.stringify(res.data))
+                    localStorage.setItem(tokenExpirado, 'N')
                     this.$router.push({ path: '/' })
-                    this.$toasted.global.defaultSuccess();
+                    // this.$toasted.global.defaultSuccess();
                 })
                 .catch(showError)
         },
@@ -76,6 +79,8 @@ export default {
                     this.$toasted.global.defaultSuccess()
                     this.user = {}
                     this.showSignup = false
+                    localStorage.setItem(userKey, null)
+                    localStorage.setItem(tokenExpirado, 'S')
                 })
                 .catch(showError)
         }

@@ -116,6 +116,7 @@ export default {
             })
 
             if(this.$mq === 'xs' || this.$mq === 'sm') {
+                // se selecionou em um dispositivo pequeno ou médio, fecha o menu
                 this.$store.commit('toggleMenu', false)
             }
         }
@@ -123,12 +124,7 @@ export default {
     mounted() {
         // alert('Montou o node de acesso')
         this.$refs.tree.$on('node:selected', this.onNodeSelect)
-    },
-    // watch: {
-    //     $route() {
-    //         alert('alterou')
-    //     }
-    // },
+    }
 }
 </script>
 

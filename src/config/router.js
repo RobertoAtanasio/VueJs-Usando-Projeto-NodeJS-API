@@ -7,7 +7,8 @@ import ArticlesByCategory from '@/components/articles/ArticlesByCategory'
 import ArticleById from '@/components/articles/ArticleById'
 import Auth from '@/components/auth/Auth'
 
-import { userKey } from "@/global"
+import { userKey, baseApiUrl, tokenExpirado } from "@/global"
+import axios from 'axios'
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,7 @@ const routes = [{
     redirect: '/admin'
 }, {
     path: '*',
-    redirect: '/'
+    redirect: '/auth'
 }]
 
 const router = new VueRouter({
@@ -60,11 +61,32 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     const json = localStorage.getItem(userKey)
-    if(to.matched.some(record => record.meta.requiresAdmin)) {
-        const user = JSON.parse(json)
-        user && user.admin ? next() : next({ path: '/' })
-    } else {
+    const user = JSON.parse(json)
+
+    if (to.name === 'Auth') {
         next()
+    } else if (user) {
+        axios.post(`${baseApiUrl}/validateToken`, user)
+            .then( res => {
+                if (res.data) {
+                    if(to.matched.some(record => record.meta.requiresAdmin)) {
+                        user && user.admin ? next() : next({ path: '/' })
+                    } else {
+                        next()
+                    }
+                } else {
+                    localStorage.removeItem(userKey)
+                    localStorage.setItem(tokenExpirado, 'S')
+                    next('/auth')
+                }
+            })
+    } else {
+        const expirado = localStorage.getItem(tokenExpirado)
+        if (expirado === 'S' || !user) {
+            next('/auth')
+        } else {
+            next()
+        }
     }
 })
 

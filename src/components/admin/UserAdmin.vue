@@ -71,14 +71,6 @@
                     <i class="fa fa-trash"></i>
                     <!-- <a href="#" class="fa fa-trash"></a>  -->
                 </b-button>
-
-                <!-- <router-link tag="button" primario 
-                    :to="{ name: 'editarUsuario', params: { id },
-                        query: { completo: true, lingua: 'pt'},
-                        hash: '#rodape' }">
-                    Editar Query
-                </router-link> -->
-
             </template>
 
             <!-- <template v-slot:table-busy>

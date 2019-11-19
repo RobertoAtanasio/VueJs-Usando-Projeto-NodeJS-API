@@ -4,8 +4,9 @@
 		:hideToggle="!user"
 		:hideUserDropDown="!user"/>
 	<Menu v-if="user" />
-	<Loading v-if="validatingToken" />
-	<Content v-else />
+	<!-- <Loading v-if="validatingToken" />
+	<Content v-else /> -->
+	<Content />
     <Footer />
   </div>
 </template>
@@ -33,6 +34,7 @@ export default {
 	},
 	methods: {
 		async validateToken() {
+
 			this.validatingToken = true
 			const json = localStorage.getItem(userKey)
 			const userData = JSON.parse(json)
@@ -51,24 +53,25 @@ export default {
 				this.$store.commit('setUser', userData)
 				
 				if(this.$mq === 'xs' || this.$mq === 'sm') {
+					// se selecionou em um dispositivo pequeno ou médio, fecha o menu
 					this.$store.commit('toggleMenu', false)
 				}
 			} else {
 				localStorage.removeItem(userKey)
-				this.$router.push({ name: 'auth' })
+				this.$router.push({ name: 'Auth' })
 			}
 
-			this.validateAdmin()
+			// this.validateAdmin()
 
 			this.validatingToken = false
 		},
-		async validateAdmin() {
-			const json = localStorage.getItem(userKey)
-			const userData = JSON.parse(json)
-			const res = await axios.post(`${baseApiUrl}/validateAdmin`, userData)
-				.catch( showError )
-			this.$store.commit('isAdmin', res.data)
-		}
+		// async validateAdmin() {
+		// 	const json = localStorage.getItem(userKey)
+		// 	const userData = JSON.parse(json)
+		// 	const res = await axios.post(`${baseApiUrl}/validateAdmin`, userData)
+		// 		.catch( showError )
+		// 	this.$store.commit('isAdmin', res.data)
+		// }
 	},
 	created() {
 		this.validateToken()
