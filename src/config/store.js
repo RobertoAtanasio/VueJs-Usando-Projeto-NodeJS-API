@@ -34,8 +34,8 @@ export default new Vuex.Store({
             state.isMudouCategoria = true
         },
         setUser(state, user) {
-            // eslint-disable-next-line
-            console.log('entrou em setUser...', user)
+            // // eslint-disable-next-line
+            // console.log('entrou em setUser...', user)
             state.user = user
             if (user) {
                 axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`

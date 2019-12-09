@@ -54,9 +54,9 @@ export default {
             // }
             axios.post(`${baseApiUrl}/signin`, this.user)
                 .then(res => {
-                    // eslint-disable-next-line
-                    console.log('signin')
-                    this.$store.commit('setUser', res.data)
+                    // // eslint-disable-next-line
+                    // console.log('signin')
+                    this.$store.commit('setUser', res.data)     // executar a mutation em store.js
                     localStorage.setItem(userKey, JSON.stringify(res.data))
                     localStorage.setItem(tokenExpirado, 'N')
                     this.$router.push({ path: '/' })

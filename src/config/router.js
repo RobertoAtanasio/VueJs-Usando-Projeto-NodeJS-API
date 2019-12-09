@@ -60,6 +60,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
     const json = localStorage.getItem(userKey)
     const user = JSON.parse(json)
 
