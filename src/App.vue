@@ -15,10 +15,11 @@
 import axios from "axios"
 import { baseApiUrl, userKey, showError } from "@/global"
 import { mapState } from "vuex";
-import Content from "@/components/template/Content";
-import Footer from "@/components/template/Footer";
+
 import Header from "@/components/template/Header";
 import Menu from "@/components/template/Menu";
+import Content from "@/components/template/Content";
+import Footer from "@/components/template/Footer";
 import Loading from '@/components/template/Loading'
 
 // mapState mapeia os atributos em store.js onde está definido a Vuex.Store
@@ -95,7 +96,7 @@ export default {
 		display: grid;		/** lembrar que criamos os componentes acima com grid-area */
 		height: 100vh;		/** indica que vai ocupar a tela inteira da aplicação */
 
-		grid-template-areas:
+		grid-template-areas:	/** onde os componente vão se encaixar */
 			"header header"
 			"nav  content"
 			"nav  footer";

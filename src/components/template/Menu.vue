@@ -92,7 +92,8 @@ import axios from 'axios'
 export default {
     name: 'Menu',
     components: { Tree },
-    computed: mapState(['isMenuVisible', 'user']),
+    computed: mapState(['isMenuVisible', 'user']),  /** pega-se os atributos que se quer mapear
+                                                        para dentro do componente */
     data: function() {
         return {
             treeFilter: '',

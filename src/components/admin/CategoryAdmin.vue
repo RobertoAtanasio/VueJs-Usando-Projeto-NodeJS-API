@@ -12,7 +12,7 @@
             <b-form-group label="Categoria Pai:" label-for="category-parentId">
                 <b-form-select v-if="mode === 'save'"
                     id="category-parentId"
-                    :options="categories" v-model="category.parentId" />
+                    :options="categoriesListBox" v-model="category.parentId" />
                 <b-form-input v-else
                     id="category-parentId" type="text"
                     v-model="category.path"
@@ -28,7 +28,7 @@
 
         <hr>
 
-        <b-table hover striped :items="categories" :fields="fields">
+        <b-table hover striped :items="categoriesListBox" :fields="fields">
             <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="loadCategory(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
@@ -38,6 +38,7 @@
                 </b-button>
             </template>
         </b-table>
+        <!-- <b-pagination size="md" v-model="page" :total-rows="count" :per-page="limit" /> -->
     </div>
 </template>
 
@@ -52,6 +53,10 @@ export default {
             mode: 'save',
             category: {},
             categories: [],
+            categoriesListBox: [],
+            page: 1,
+            limit: 0,
+            count: 0,
             fields: [
                 { key: 'id', label: 'Código', sortable: true },
                 { key: 'name', label: 'Nome', sortable: true },
@@ -62,21 +67,47 @@ export default {
     },
     methods: {
         // Modelo de retorno das categorias via API: 
-        // [
-        //     {
-        //         "id": 3,
-        //         "name": "Web Moderno",
-        //         "parentId": null,
-        //         "path": "Web Moderno"
-        //     }
-        // ]
+        /*
+        {
+            "data": [
+                {
+                    "id": 3,
+                    "name": "Web Moderno",
+                    "parentId": null,
+                    "path": "Web Moderno"
+                },
+                {
+                    "id": 4,
+                    "name": "CSS",
+                    "parentId": 3,
+                    "path": "Web Moderno > CSS"
+                }
+            ],
+            "count": 6,
+            "limit": 2
+        }
+        */
         loadCategories() {
-            const url = `${baseApiUrl}/categories`
+            const url = `${baseApiUrl}/categories?page=${this.page}`
             axios.get(url)
                 .then(res => {
+                    this.count = res.data.count
+                    this.limit = res.data.limit
                     // this.categories = res.data
-                    this.categories = res.data.map(category => {
-                       return { ...category, value: category.id, text: category.path } 
+                    this.categories = res.data.data.map(category => {
+                        const ret = { ...category, value: category.id, text: category.path } 
+                        return ret
+                    })
+                })
+                .catch(showError)
+        },
+        loadCategoriesListBox() {
+            const url = `${baseApiUrl}/categories/all`
+            axios.get(url)
+                .then(res => {
+                    this.categoriesListBox = res.data.map(category => {
+                        const ret = { ...category, value: category.id, text: category.path } 
+                        return ret
                     })
                 })
                 .catch(showError)
@@ -85,6 +116,7 @@ export default {
             this.mode = 'save'
             this.category = {}
             this.loadCategories()
+            this.loadCategoriesListBox()
         },
         save() {
             const method = this.category.id ? 'put' : 'post'
@@ -93,6 +125,7 @@ export default {
                 .then(() => {
                     this.$toasted.global.defaultSuccess()
                     this.reset()
+                    this.loadCategoriesListBox()
                     this.$store.dispatch('setAcaoMudouCategoria')  // dispara a ação em store.js
                 })
                 .catch(showError)
@@ -113,8 +146,14 @@ export default {
         }
     },
     mounted() {
+        this.loadCategoriesListBox()
         this.loadCategories()
-    }
+    },
+    watch: {
+        page() {
+            this.loadCategories()
+        },
+    },
 }
 </script>
 

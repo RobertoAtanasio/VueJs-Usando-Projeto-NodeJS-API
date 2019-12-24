@@ -13,7 +13,7 @@
                 <b-form-input id="article-description" type="text"
                     v-model="article.description" required
                     :readonly="mode === 'remove'"
-                    placeholder="Informe o Nome do Artigo..." />
+                    placeholder="Informe a descrição do Artigo..." />
             </b-form-group>
 
             <b-form-group v-if="mode === 'save'"
@@ -152,23 +152,23 @@ export default {
         },
         loadCategories() {
             // prepara o retorno para o dropdown
-            const url = `${baseApiUrl}/categories`
-            axios.get(url).then(res => {
-                this.categories = res.data.map(category => {
-                    return { value: category.id, text: category.path }
+            const url = `${baseApiUrl}/categories/all`
+            axios.get(url)
+                .then(res => { 
+                    this.categories = res.data.map(category => {
+                        return { value: category.id, text: category.path }
+                    })
                 })
-                // .catch(showError)
-            })
         },
         loadUsers() {
             // prepara o retorno para o dropdown
-            const url = `${baseApiUrl}/users`
-            axios.get(url).then(res => {
-                this.users = res.data.map(user => {
-                    return { value: user.id, text: `${user.name} - ${user.email}` }
+            const url = `${baseApiUrl}/users/all`
+            axios.get(url)
+                .then(res => { 
+                    this.users = res.data.map(user => {
+                        return { value: user.id, text: `${user.name} - ${user.email}` }
+                    })
                 })
-                // .catch(showError)
-            })
         }
     },
     watch: {

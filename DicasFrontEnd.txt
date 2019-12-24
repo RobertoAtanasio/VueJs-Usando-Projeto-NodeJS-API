@@ -6,6 +6,10 @@ npm install
 
 npm run serve
 
+usuário teste: 
+    pires@gmail.com     123456
+    roberto@gmail.com   123456
+
 http://localhost:8080/
 
 npm install vuex --save

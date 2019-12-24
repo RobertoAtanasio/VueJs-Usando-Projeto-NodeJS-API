@@ -60,14 +60,15 @@ export default {
     }
 
     .user-dropdown:hover {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);   /** preto com uma transparência */
     }
 
     .user-dropdown-img {
-        padding: 0px 10px
+        padding: 0px 10px       /** dá um espaço entre a imagem, distanciando os elemento 
+                                    à direita e à esquerda */
     }
 
-    /** Esta imagem será rederizada pelo Gravatar */
+    /** Esta imagem será rederizada pelo Gravatar, Colocar a imagem no tamanho correto. */
     .user-dropdown-img > img {
         max-height: 37px;
         border-radius: 5px;
@@ -101,7 +102,7 @@ export default {
     .user-dropdown-content a {
         text-decoration: none;  /** retira o undescore do link */
         color: #000;          /** fonte */
-        padding: 10px;
+        padding: 10px;          /** coloca espaços entros os links */
     }
 
     .user-dropdown-content a:hover {

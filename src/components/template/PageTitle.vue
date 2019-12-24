@@ -15,7 +15,7 @@ export default {
 
 <style>
     .page-title h1 {
-        margin: 0px;
+        margin: 0px;        /** o h1 por padrão tem margem, por isso estamos retirando a margem */
     }
     
     .page-title h2 {

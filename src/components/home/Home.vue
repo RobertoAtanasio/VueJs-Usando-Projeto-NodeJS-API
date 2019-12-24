@@ -52,7 +52,7 @@ export default {
         }
     },
     mounted() {
-        this.getStats()
+        this.getStats()         // assim que o componente é montado, acessa as estatísticas
     },
 }
 </script>

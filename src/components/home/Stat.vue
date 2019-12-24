@@ -17,7 +17,7 @@ export default {
     computed: {
         // para a cor do ícone será preciso aplicar um estilo
         style() {
-            return 'color: ' + (this.color || '#000')
+            return 'color: ' + (this.color || '#000')   // se não informar, assumir cor preta
         }
     },
 }
@@ -48,10 +48,10 @@ export default {
     .stat-info {
         flex: 1;        /** cresce de acordo com a necessidade dentro do flex container .stat */
         display: flex;  /** neste caso, vamos organizar os 2 elementos span dentro de um 
-                            flex container, uma vez ue o stat-info passou a ser um flex container. 
+                            flex container, uma vez que o stat-info passou a ser um flex container. 
                             Por padrão, a orientação é horizontal */
-        flex-direction: column;
-        align-items: flex-end;  /** alinhar à direita */
+        flex-direction: column;     /** alinhado na vertical (em coluna) */
+        align-items: flex-end;      /** alinhar à direita */
     }
 
     .stat-title {

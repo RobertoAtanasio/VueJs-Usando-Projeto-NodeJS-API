@@ -46,7 +46,7 @@ export default {
         grid-area: header;
         background: linear-gradient(to right, #1e469a, #49a7c1);
 
-        display: flex;      /* na web é em linha */
+        display: flex;          /* na web é em linha */
         justify-content: center;
         align-items: center;
     }
@@ -61,7 +61,7 @@ export default {
 
     .title a {
         color: #fff;
-        text-decoration: none;
+        text-decoration: none;  /** retira o estilo do link padrão */
     }
     
     .title a:hover {
@@ -77,7 +77,8 @@ export default {
         justify-self: flex-start;
         text-decoration: none;
 
-        display: flex;
+        /** centralizará o ícone */
+        display: flex;      
         justify-content: center;
         align-items: center;
     }

@@ -22,7 +22,7 @@
                 </b-col>
             </b-row>
             
-            <!-- mt-3 margem top 3; mb-3 margem bottom 3 -->
+            <!-- mt-3 margem top 3; mb-3 margem bottom 3 do bootstrap 4-->
             <b-form-checkbox id="user-admin" v-show="mode === 'save'"
                 v-model="user.admin" class="mt-3 mb-3">
                 Administrador?
@@ -46,6 +46,7 @@
                 </b-col>
             </b-row>
 
+            <!-- class="ml-2" -> margem left = 2 -->
             <b-row>
                 <b-col xs="12">
                     <b-button variant="primary" v-if="mode === 'save'"
@@ -67,10 +68,15 @@
                     <i class="fa fa-pencil"></i>
                     <!-- <a href="#" class="fa fa-pencil"></a> -->
                 </b-button>
-                <b-button variant="danger" @click="loadUser(data.item, 'remove')" >
+
+                <b-button variant="danger" @click="dialogoExclusao(data.item)" >
                     <i class="fa fa-trash"></i>
-                    <!-- <a href="#" class="fa fa-trash"></a>  -->
                 </b-button>
+
+                <!-- <b-button variant="danger" @click="loadUser(data.item, 'remove')" >
+                    <i class="fa fa-trash"></i>
+                </b-button> -->
+
             </template>
 
             <!-- <template v-slot:table-busy>
@@ -79,8 +85,8 @@
                     <strong>Loading...</strong>
                 </div>
             </template> -->
-
         </b-table>
+        <b-pagination size="md" v-model="page" :total-rows="count" :per-page="limit" />
     </div>
 </template>
 
@@ -93,9 +99,13 @@ export default {
     data() {
         return {
             isBusy: false,
-            mode: 'save',
+            mode: 'save',       // para o controle de inserir e alterar
             user: {},
             users: [],
+            page: 1,
+            limit: 0,
+            count: 0,
+            // Ver https://bootstrap-vue.js.org/docs/components/table/#fields-column-definitions
             fields: [
                 { key: 'id', label: 'Código', sortable: true },
                 { key: 'name', label: 'Nome', sortable: true },
@@ -115,16 +125,35 @@ export default {
         // }
     },
     methods: {
+        dialogoExclusao(user) {
+            this.$swal("Exclusão", `Confirma a exclusão do usuario '${user.name}'?` , 
+                { buttons: {
+                    confirm: { value: 0 },
+                    cancelar: { value: 1 }
+                    }
+                }).then((res) => {
+                    if (res == 0) {
+                        this.excluir(user)
+                    }
+                })
+        },
         // responsável por carregar os usuários 
         loadUsers() {
-            const url = `${baseApiUrl}/users`
+            const url = `${baseApiUrl}/users?page=${this.page}`
             axios.get(url)
                 .then(res => {
-                    this.users = res.data
+                    this.users = res.data.data
+                    this.count = res.data.count
+                    this.limit = res.data.limit
+                    // // eslint-disable-next-line
+                    // console.log(res.data.data);
+                    // // eslint-disable-next-line
+                    // console.log(res.data);
                 })
                 .catch(showError)
         },
         reset() {
+            this.page = 1
             this.mode = 'save'
             this.user = {}
             this.loadUsers()
@@ -144,7 +173,7 @@ export default {
             const id = this.user.id
             axios.delete(`${baseApiUrl}/users/${id}`)
                 .then( () => {
-                    this.$toasted.global.defaultSuccess();
+                    this.$toasted.global.defaultSuccess({msg: "Usuário Excluído com Sucesso!"});
                     this.reset()
                 })
                 .catch(showError)
@@ -160,11 +189,25 @@ export default {
         loadUser(user, mode = 'save') {
             this.mode = mode
             this.user = { ...user }
+        },
+        excluir(user) {
+            const id = user.id
+            axios.delete(`${baseApiUrl}/users/${id}`)
+                .then( () => {
+                    this.$toasted.global.defaultSuccess({msg: "Registro Excluído com Sucesso!"});
+                    this.reset()
+                })
+                .catch(showError)
         }
     },
     mounted() {
         this.loadUsers()
-    }
+    },
+    watch: {
+        page() {
+            this.loadUsers()
+        },
+    },
 }
 </script>
 
