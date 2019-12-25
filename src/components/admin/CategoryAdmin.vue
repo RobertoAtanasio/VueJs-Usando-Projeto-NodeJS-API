@@ -66,7 +66,7 @@ export default {
         }
     },
     methods: {
-        // Modelo de retorno das categorias via API: 
+        // Modelo de retorno das categorias via API na chamada de loadCategories(): 
         /*
         {
             "data": [
@@ -105,6 +105,7 @@ export default {
             const url = `${baseApiUrl}/categories/all`
             axios.get(url)
                 .then(res => {
+                    // o value: category.id, text: category.path serão usado no combobox
                     this.categoriesListBox = res.data.map(category => {
                         const ret = { ...category, value: category.id, text: category.path } 
                         return ret

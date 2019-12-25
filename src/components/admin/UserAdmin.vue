@@ -130,7 +130,7 @@ export default {
                 { buttons: {
                     confirm: { value: 0 },
                     cancelar: { value: 1 }
-                    }
+                    }   
                 }).then((res) => {
                     if (res == 0) {
                         this.excluir(user)

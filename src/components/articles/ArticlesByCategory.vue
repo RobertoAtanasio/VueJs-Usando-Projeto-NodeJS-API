@@ -41,14 +41,15 @@ export default {
         getArticles() {
             const url = `${baseApiUrl}/categories/${this.category.id}/articles?page=${this.page}`
             axios(url).then(res => {
-                this.articles = this.articles.concat(res.data)
+                this.articles = this.articles.concat(res.data)  // acrescentar à lista existente
                 this.page++
-                if(res.data.length === 0) this.loadMore = false
+                if(res.data.length === 0) this.loadMore = false // não existe mais artigos
             })
         }
     },
     watch: {
-        // monitorando as rotas sempre que mudar
+        // monitorando as rotas sempre que mudar. 
+        // to.params.id é a rota para onde se quer ir. 
         $route(to) {
             this.category.id = to.params.id
             this.articles = []
@@ -59,7 +60,7 @@ export default {
         }
     },
     mounted() {
-        this.category.id = this.$route.params.id
+        this.category.id = this.$route.params.id    // obtendo da rota
         this.getCategory()
         this.getArticles()
     }
@@ -68,7 +69,7 @@ export default {
 
 <style>
     .articles-by-category ul {
-        list-style-type: none;
+        list-style-type: none;      /** retira as formatação padrão da lista (o caracter *) */
         padding: 0px;
     }
 

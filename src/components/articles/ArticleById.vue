@@ -15,7 +15,7 @@ import PageTitle from '../template/PageTitle'
 export default {
     name: 'ArticleById',
     components: { PageTitle },
-    data: function() {
+    data() {
         return {
             article: {}
         }

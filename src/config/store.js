@@ -6,9 +6,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        isMenuVisible: false,
+        isMenuVisible: false,       // por padrão o usuário está deslogado
         isMudouCategoria: false,
-        user: null,
+        user: null,                 // por padrão não temos o usuário
         isAdmin: false
         // user: {
         //     name: 'Usuário Mock',
@@ -27,15 +27,11 @@ const store = new Vuex.Store({
             } else {
                 state.isMenuVisible = isVisible
             }
-            // /* eslint-disable */
-            // console.log('toggleMenu', state.isMenuVisible)
         },
         setMudouCategoria(state) {
             state.isMudouCategoria = true
         },
         setUser(state, user) {
-            // // eslint-disable-next-line
-            // console.log('entrou em setUser...', user)
             state.user = user
             if (user) {
                 axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`

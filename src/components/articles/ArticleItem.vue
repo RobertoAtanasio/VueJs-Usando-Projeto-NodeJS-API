@@ -1,9 +1,16 @@
 <template>
     <div class="article-item">
-        <!-- ver a rota em router.js Todo o bloco é um link -->
-        <!-- d-none -- dispositivo pequeno a imagem irá sumir. Em celular não exibes -->
+        <!-- ver a rota em router.js. Todo o bloco é um link -->
+        <!-- {
+            name: 'articleById',
+            path: '/articles/:id',
+            component: ArticleById -->
+        <!-- d-none -- dispositivo pequeno a imagem irá sumir. Em celular não exibes. -->
         <!-- d-sm-block -- a partir do small para cima, exibir -->
         <!-- Essas são classes do bootstrap 4 -->
+        <!-- 
+            Procedimento para programar a geração de rotas dinâmicas com router-link.
+            Em Menu.vue temos uma forma semelhante para tratar this.$router.push -->
         <router-link :to="{ name: 'articleById', params: { id: article.id } }">
             <div class="article-item-image d-none d-sm-block">
                 <img v-if="article.imageUrl"
@@ -42,7 +49,7 @@ export default {
     }
 
     .article-item a {
-        display: flex;
+        display: flex;      /** por padrão o alinhamento é horizontal */
         align-items: flex-start;    
         text-decoration: none;
         color: #000;
@@ -55,7 +62,8 @@ export default {
     .article-item-image {
         padding-right: 20px;
         margin-right: 20px;
-        border-right: 1px solid #AAA;   /** simula a barra vertical separando os textos */
+        border-right: 1px solid #AAA;   /** simula a barra vertical separando os textos entre
+                                              o padding e margin */
     }
 
     .article-item-image img {

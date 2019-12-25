@@ -30,7 +30,7 @@ export default {
     name: 'Auth',
     data() {
         return {
-            showSignup: false,
+            showSignup: false,      // alternar entre a tela de cadastro e login
             user: {}
         }
     },

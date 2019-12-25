@@ -45,7 +45,7 @@
             <b-button variant="primary" v-if="mode === 'save'"
                 @click="save">Salvar</b-button>
             <b-button variant="danger" v-if="mode === 'remove'"
-                @click="remove">Excluir</b-button>
+                @click="remove(article)">Excluir</b-button>
             <b-button class="ml-2" @click="reset">Cancelar</b-button>
         </b-form>
         <hr>
@@ -54,9 +54,12 @@
                 <b-button variant="warning" @click="loadArticle(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="loadArticle(data.item, 'remove')">
+                <b-button variant="danger" @click="dialogoExclusao(data.item)">
                     <i class="fa fa-trash"></i>
                 </b-button>
+                <!-- <b-button variant="danger" @click="loadArticle(data.item, 'remove')">
+                    <i class="fa fa-trash"></i>
+                </b-button> -->
             </template>
         </b-table>
         <b-pagination size="md" v-model="page" :total-rows="count" :per-page="limit" />
@@ -94,6 +97,19 @@ export default {
         ...mapState(['isMudouCategoria'])
     },
     methods: {
+        dialogoExclusao(article) {
+            this.reset()
+            this.$swal("Exclusão", `Confirma a exclusão do artigo '${article.name}' ?` , 
+                { buttons: {
+                    confirm: { value: 0 },
+                    cancelar: { value: 1 }
+                    }
+                }).then((res) => {
+                    if (res == 0) {
+                        this.remove(article)
+                    }
+                })
+        },
         // Modelo de retorno da API:
         // {
         //     "data": [
@@ -135,8 +151,8 @@ export default {
                 })
                 .catch(showError)
         },
-        remove() {
-            const id = this.article.id
+        remove(article) {
+            const id = article.id
             axios.delete(`${baseApiUrl}/articles/${id}`)
                 .then(() => {
                     this.$toasted.global.defaultSuccess()

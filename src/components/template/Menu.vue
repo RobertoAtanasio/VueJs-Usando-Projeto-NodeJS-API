@@ -97,7 +97,7 @@ export default {
     data: function() {
         return {
             treeFilter: '',
-            treeData: this.getTreeData(),
+            treeData: this.getTreeData(),  // quando a Promise for resolvida a árvore sera renderizada
             treeOptions: {
                 propertyNames: { 'text': 'name' },
                 filter: { emptyText: 'Categoria não encontrada' },
@@ -108,9 +108,17 @@ export default {
     methods: {
         getTreeData() {
             const url = `${baseApiUrl}/categories/tree`
+            // aqui está retornando uma Promise
             return axios.get(url).then(res => res.data)
         },
         onNodeSelect(node) {
+            // Procedimento para programar a geração de rotas dinâmicas no clicks da árvore.
+            // Em ArticleItem.vue temos uma forma semelhante para tratar com o router-link. 
+            //
+            // Para que as rotas funcionem dentro do componente ArticlesByCategory.vue
+            // será preciso criar o evento watch que ficar monitorando as seleções das rotas
+            // (ver ArticlesByCategory.vue)
+            
             this.$router.push({
                 name: 'articlesByCategory',
                 params: { id: node.id }
@@ -124,6 +132,7 @@ export default {
     },
     mounted() {
         // alert('Montou o node de acesso')
+        // Vincular o 'node' da rota selecionada da árvore
         this.$refs.tree.$on('node:selected', this.onNodeSelect)
     }
 }
@@ -144,12 +153,14 @@ export default {
         color: #fff;
         text-decoration: none;
     }
-
+    /** .tree-node é uma classe criada pela árvore */
+    /** Quando se seleciona um item, é criado a classe selected */
     .menu .tree-node.selected > .tree-content,
     .menu .tree-node .tree-content:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.2);     /** branco uma uma transparência */
     }
 
+    /** .tree-arrow é classe da seta dos itens da árvore */
     .tree-arrow.has-child {
         filter: brightness(2);  
     }
@@ -161,9 +172,10 @@ export default {
 
         margin: 15px;
         padding-bottom: 4px;
-        border-bottom: 1px solid #AAA;
+        border-bottom: 1px solid #AAA;  /** coloca uma borda abaixo, simulando uma linha */
     }
 
+    /** aqui é o ícone */
     .menu .menu-filter i {
         color: #AAA;
         margin-right: 7px;
@@ -178,6 +190,7 @@ export default {
         background: transparent;
     }
 
+    /** classe criada pela árvore para a opção da mensagem do filtro não encontrado */
     .tree-filter-empty {
         color: #CCC;
         font-size: 0.8rem;
