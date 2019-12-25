@@ -7,7 +7,7 @@ import ArticlesByCategory from '@/components/articles/ArticlesByCategory'
 import ArticleById from '@/components/articles/ArticleById'
 import Auth from '@/components/auth/Auth'
 
-import { userKey, baseApiUrl, tokenExpirado } from "@/global"
+import { userKey, baseApiUrl } from "@/global"
 import axios from 'axios'
 
 Vue.use(VueRouter)
@@ -20,7 +20,7 @@ const routes = [{
     name: 'adminPages',
     path: '/admin',
     component: AdminPages,
-    meta: { requiresAdmin: true }
+    meta: { requiresAdmin: true }       // o atributo requiresAdmin é livre de definição
 }, {
     name: 'articlesByCategory',
     path: '/categories/:id/articles',
@@ -30,7 +30,7 @@ const routes = [{
     path: '/articles/:id',
     component: ArticleById
 }, {
-    name: 'Auth',
+    name: 'auth',
     path: '/auth',
     component: Auth
 }, {
@@ -64,31 +64,30 @@ router.beforeEach((to, from, next) => {
     const json = localStorage.getItem(userKey)
     const user = JSON.parse(json)
 
-    if (to.name === 'Auth') {
+    if (to.name === 'auth') {
         next()
-    } else if (user) {
-        axios.post(`${baseApiUrl}/validateToken`, user)
-            .then( res => {
-                if (res.data) {
-                    if(to.matched.some(record => record.meta.requiresAdmin)) {
-                        user && user.admin ? next() : next({ path: '/' })
-                    } else {
-                        next()
-                    }
-                } else {
-                    localStorage.removeItem(userKey)
-                    localStorage.setItem(tokenExpirado, 'S')
-                    next('/auth')
-                }
-            })
-    } else {
-        const expirado = localStorage.getItem(tokenExpirado)
-        if (expirado === 'S' || !user) {
-            next('/auth')
-        } else {
-            next()
+    } 
+
+    if (user) {
+        const tokenValido = async function (user) {
+            axios.post(`${baseApiUrl}/validateToken`, user)
+                .then( res => res )
         }
+        if (tokenValido) {
+            if(to.matched.some(record => record.meta.requiresAdmin)) {
+                user && user.admin ? next() : next({ path: '/' })
+            } else {
+                next()
+            }
+        } else {
+            localStorage.removeItem(userKey)
+            next('/auth')
+        }
+    } else {
+        localStorage.removeItem(userKey)
+        next('/auth')
     }
+
 })
 
 export default router

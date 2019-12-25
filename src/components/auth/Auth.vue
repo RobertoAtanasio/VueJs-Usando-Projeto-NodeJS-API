@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { baseApiUrl, showError, userKey, tokenExpirado } from '@/global'
+import { baseApiUrl, showError, userKey } from '@/global'
 import axios from 'axios'
 
 export default {
@@ -56,9 +56,8 @@ export default {
                 .then(res => {
                     this.$store.commit('setUser', res.data)     // executar a mutation em store.js
                     localStorage.setItem(userKey, JSON.stringify(res.data))
-                    localStorage.setItem(tokenExpirado, 'N')
                     this.$router.push({ path: '/' })
-                    // this.$toasted.global.defaultSuccess();
+                    this.$toasted.global.defaultSuccess({msg: "Login Efetuado com Sucesso!"});
                 })
                 .catch(showError)
         },
@@ -74,11 +73,10 @@ export default {
             // }
             axios.post(`${baseApiUrl}/signup`, this.user)
                 .then(() => {
-                    this.$toasted.global.defaultSuccess()
                     this.user = {}
                     this.showSignup = false
                     localStorage.setItem(userKey, null)
-                    localStorage.setItem(tokenExpirado, 'S')
+                    this.$toasted.global.defaultSuccess({msg: "Usuário Registrado com Sucesso!"})
                 })
                 .catch(showError)
         }
@@ -114,17 +112,17 @@ export default {
 
     .auth-modal input {
         border: 1px solid #BBB;
-        width: 100%;    /** respeitando o padding colocado em .auth-modal */
+        width: 100%;            /** respeitando o padding colocado em .auth-modal */
         margin-bottom: 15px;    /** espaço entre os inputs */
-        padding: 3px 8px;   /** espaçamento entre os textos internos */
+        padding: 3px 8px;       /** espaçamento entre os textos internos */
         /* outline: none;   */  /** retirar as bordas azuis quando se seleciona o input */
     }
 
     .auth-modal button {
         align-self: flex-end;
         background-color: #2460ae;
-        color: #FFF;    /** fonte branca */
-        padding: 5px 15px;  /** 5px na vertical e 15px na horizontal */
+        color: #FFF;          /** fonte branca */
+        padding: 5px 15px;      /** 5px na vertical e 15px na horizontal */
     }
 
     .auth-modal a {

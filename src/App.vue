@@ -4,9 +4,8 @@
 		:hideToggle="!user"
 		:hideUserDropDown="!user"/>
 	<Menu v-if="user" />
-	<!-- <Loading v-if="validatingToken" />
-	<Content v-else /> -->
-	<Content />
+	<Loading v-if="validatingToken" />
+	<Content v-else />
     <Footer />
   </div>
 </template>
@@ -42,12 +41,12 @@ export default {
 			this.$store.commit('setUser', null)
 
 			if (!userData) {
-				this.validateToken = false
-				this.$router.push({ name: 'Auth'})
-				return
+				this.validatingToken = false
+				this.$router.push({ name: 'auth'})
+				return 
 			}
 
-			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData) 
 				.catch( showError )
 				
 			if (res.data) {
@@ -58,13 +57,15 @@ export default {
 					this.$store.commit('toggleMenu', false)
 				}
 			} else {
+				this.$toasted.global.defaultError({msg: "Sua Sessão Expirou!"});
 				localStorage.removeItem(userKey)
-				this.$router.push({ name: 'Auth' })
+				this.$router.push({ name: 'auth' })
 			}
 
 			// this.validateAdmin()
 
 			this.validatingToken = false
+
 		},
 		// async validateAdmin() {
 		// 	const json = localStorage.getItem(userKey)

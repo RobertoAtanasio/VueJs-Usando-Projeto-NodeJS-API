@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { userKey, tokenExpirado } from '@/global'
+import { userKey } from '@/global'
 import { mapState } from 'vuex'
 import Gravatar from 'vue-gravatar'
 
@@ -35,9 +35,8 @@ export default {
     methods: {
         logout() {
             localStorage.removeItem(userKey)
-            localStorage.removeItem(tokenExpirado)
             this.$store.commit('setUser', null)
-            this.$router.push({ name: 'Auth' })
+            this.$router.push({ name: 'auth' })
             // this.$router.push({ path: '/auth' })
         }
     },

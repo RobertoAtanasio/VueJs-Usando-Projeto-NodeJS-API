@@ -7,7 +7,7 @@ import './config/bootstrap'   // aqui carregará e rodará o arquivo de configur
 import './config/toast'
 import './config/dialogo'
 import './config/mq'
-// import './config/axios'
+import './config/axios'       // importa os dois interceptors de sucesso e error (axios.js)
 
 import store from './config/store'
 import router from './config/router'
