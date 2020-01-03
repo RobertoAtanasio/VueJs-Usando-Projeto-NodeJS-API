@@ -1,30 +1,21 @@
 <template>
-  <div>
-    <div class="text-center mb-3 d-flex justify-content-between">
-      <b-spinner
-        v-for="variant in variants"
-        :variant="variant"
-        :key="variant"
-      ></b-spinner>
+    <div id="app-2">
+        <span v-bind:title="message">
+            Pare o mouse sobre mim e veja a dica interligada dinamicamente!
+        </span>
     </div>
-
-    <div class="text-center d-flex justify-content-between">
-      <b-spinner
-        v-for="variant in variants"
-        :variant="variant"
-        :key="variant"
-        type="grow"
-      ></b-spinner>
-    </div>
-  </div>
 </template>
 
 <script>
-  export default {
+export default {
     data() {
-      return {
-        variants: ['primary', 'secondary', 'danger', 'warning', 'success', 'info', 'light', 'dark']
-      }
+        return {
+            message: 'Você carregou esta página em ' + new Date().toLocaleString()
+        }
     }
-  }
+}
 </script>
+
+<style>
+
+</style>

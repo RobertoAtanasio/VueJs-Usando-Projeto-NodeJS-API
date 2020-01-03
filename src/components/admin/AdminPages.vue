@@ -13,8 +13,14 @@
                 <b-tab title="Usuários">
                     <UserAdmin />
                 </b-tab>
-                <b-tab title="Testes">
+                <b-tab title="Diálogo">
                     <Dialogo />
+                </b-tab>
+                <b-tab title="Teste">
+                    <Teste />
+                </b-tab>
+                <b-tab title="Gráfico">
+                    <Graficos />
                 </b-tab>
             </b-tabs>
         </b-card>
@@ -28,12 +34,13 @@ import CategoryAdmin from './CategoryAdmin'
 import UserAdmin from './UserAdmin'
 import { mapState } from "vuex";
 
-import Teste from './Teste'
 import Dialogo from './Dialogo'
+import Teste from './Teste'
+import Graficos from '@/components/graficos/Graficos'
 
 export default {
     name: 'AdminPages',
-    components: { PageTitle, ArticleAdmin, CategoryAdmin, UserAdmin, Teste, Dialogo },
+    components: { PageTitle, ArticleAdmin, CategoryAdmin, UserAdmin, Dialogo, Teste, Graficos },
     computed: mapState(['user'])
 }
 </script>

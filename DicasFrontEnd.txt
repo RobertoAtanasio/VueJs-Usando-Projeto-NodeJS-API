@@ -1,3 +1,11 @@
+Caso exista algum processo executando na porta 8080, segue os comando para excluir o processo.
+Abrir o CMD com opção de administrador:
+
+	netstat -ano | findstr 8080
+
+	taskkill /F /pid 3744
+-----------------------------------------------------------------------------------------------
+
 npm install -g @vue/cli
 
 vue create frontend
@@ -24,6 +32,6 @@ npm i vue-router --save
 npm i vue-toasted --save
 npm i vue2-editor --save
 npm i bootstrap --save
-
+npm install echarts --save
 
 
